@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemple d'intégration Chatbot</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        
+        .demo-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        
+        .button {
+            background: #3B82F6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+            transition: background 0.3s;
+        }
+        
+        .button:hover {
+            background: #2563EB;
+        }
+        
+        .button.danger {
+            background: #EF4444;
+        }
+        
+        .button.danger:hover {
+            background: #DC2626;
+        }
+        
+        .code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 Exemple d'intégration Chatbot</h1>
+        
+        <div class="demo-section">
+            <h2>Test du Chatbot</h2>
+            <p>Cliquez sur les boutons ci-dessous pour tester différentes configurations du chatbot :</p>
+            
+            <button class="button" onclick="initDemo()">🚀 Initialiser (Mode Demo)</button>
+            <button class="button" onclick="initReal()">🔧 Initialiser (Mode Réel)</button>
+            <button class="button danger" onclick="destroyChatbot()">🗑️ Détruire</button>
+        </div>
+        
+        <div class="demo-section">
+            <h2>Code d'intégration</h2>
+            <p>Voici comment intégrer le chatbot sur votre site :</p>
+            
+            <div class="code">
+&lt;!-- 1. Inclure le script --&gt;
+&lt;script src="integration-script.js"&gt;&lt;/script&gt;
+
+&lt;!-- 2. Initialiser le chatbot --&gt;
+&lt;script&gt;
+    ChatbotWidget.init({
+        clientId: 'votre-client-id',
+        isDemo: true, // Mettre à false pour le mode réel
+        position: 'bottom-right', // bottom-right, bottom-left, top-right, top-left
+        theme: 'light' // light, dark
+    });
+&lt;/script&gt;
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>Configuration automatique</h2>
+            <p>Vous pouvez aussi configurer le chatbot automatiquement :</p>
+            
+            <div class="code">
+&lt;script&gt;
+    window.CHATBOT_CONFIG = {
+        clientId: 'votre-client-id',
+        isDemo: false
+    };
+&lt;/script&gt;
+&lt;script src="integration-script.js"&gt;&lt;/script&gt;
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>API JavaScript</h2>
+            <p>Fonctions disponibles :</p>
+            
+            <div class="code">
+// Initialiser le chatbot
+ChatbotWidget.init(config);
+
+// Détruire le chatbot
+ChatbotWidget.destroy();
+            </div>
+        </div>
+    </div>
+
+    <!-- Script d'intégration -->
+    <script src="integration-script.js"></script>
+    
+    <script>
+        function initDemo() {
+            ChatbotWidget.init({
+                clientId: 'demo-client',
+                isDemo: true,
+                position: 'bottom-right'
+            });
+        }
+        
+        function initReal() {
+            ChatbotWidget.init({
+                clientId: 'real-client',
+                isDemo: false,
+                position: 'bottom-right'
+            });
+        }
+        
+        function destroyChatbot() {
+            ChatbotWidget.destroy();
+        }
+        
+        // Initialiser automatiquement en mode démo
+        setTimeout(() => {
+            initDemo();
+        }, 1000);
+    </script>
+</body>
+</html> 
