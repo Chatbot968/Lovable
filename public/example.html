@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemple d'intégration du Chatbot Widget</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            color: #2d3748;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .demo-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f7fafc;
+            border-radius: 8px;
+            border-left: 4px solid #4299e1;
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .feature-card h3 {
+            color: #2d3748;
+            margin-top: 0;
+        }
+        
+        .feature-card p {
+            color: #4a5568;
+            margin: 0;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #4299e1;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+        
+        .btn:hover {
+            background: #3182ce;
+        }
+        
+        .note {
+            background: #fef5e7;
+            border: 1px solid #f6ad55;
+            color: #744210;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 Chatbot Widget - Exemple d'intégration</h1>
+        
+        <div class="demo-section">
+            <h2>🎯 Fonctionnalités du Widget</h2>
+            <div class="feature-list">
+                <div class="feature-card">
+                    <h3>💬 Chat en temps réel</h3>
+                    <p>Interface de chat moderne avec historique des messages</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🎤 Reconnaissance vocale</h3>
+                    <p>Parlez directement au chatbot avec la reconnaissance vocale</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🔧 Configuration dynamique</h3>
+                    <p>Personnalisation via clientId et attributs data-*</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📱 Responsive design</h3>
+                    <p>S'adapte parfaitement aux mobiles et tablettes</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🎨 Thème personnalisable</h3>
+                    <p>Couleurs et style adaptés à votre marque</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🔒 Isolation CSS</h3>
+                    <p>Aucun conflit avec le CSS de votre site</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>📋 Code d'intégration</h2>
+            <p>Ajoutez simplement cette ligne dans votre HTML :</p>
+            <div class="code-block">
+&lt;script src="https://cdn.monchatbot.com/chatbot.js" data-client-id="CLIENT123"&gt;&lt;/script&gt;
+            </div>
+            
+            <h3>Options de configuration :</h3>
+            <div class="code-block">
+&lt;script 
+  src="https://cdn.monchatbot.com/chatbot.js" 
+  data-client-id="CLIENT123"
+  data-position="bottom-right"
+  data-theme="light"
+  data-language="fr"
+  data-auto-open="false"
+  data-greeting="Bonjour ! Comment puis-je vous aider ?"
+  data-voice-enabled="true"&gt;
+&lt;/script&gt;
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>⚙️ Configuration avancée</h2>
+            <p>Le widget récupère automatiquement sa configuration depuis :</p>
+            <div class="code-block">
+https://dashboard.monchatbot.com/configs/CLIENT123.json
+            </div>
+            
+            <p>Format de la configuration :</p>
+            <div class="code-block">
+{
+  "client_id": "CLIENT123",
+  "logo_url": "https://example.com/logo.png",
+  "color_primary": "#4299e1",
+  "webhook_url": "https://your-webhook.com/chat",
+  "bot_description": "Assistant virtuel personnalisé",
+  "banner_color": "#2d3748",
+  "chat_background_color": "#f7fafc",
+  "text_color": "#2d3748"
+}
+            </div>
+        </div>
+        
+        <div class="note">
+            <strong>💡 Note :</strong> Ce widget est actuellement en mode démo. Pour l'utiliser en production, 
+            vous devez configurer votre clientId dans le dashboard et définir votre webhook URL.
+        </div>
+        
+        <div class="demo-section">
+            <h2>🚀 Utilisation programmatique</h2>
+            <p>Vous pouvez aussi initialiser le widget manuellement :</p>
+            <div class="code-block">
+// Créer une instance manuellement
+const widget = new ChatbotWidget('CLIENT123', {
+  position: 'bottom-right',
+  theme: 'light',
+  language: 'fr',
+  autoOpen: true,
+  greeting: 'Bonjour !',
+  voiceEnabled: true
+});
+
+// Contrôler le widget
+widget.toggle(); // Ouvrir/fermer
+widget.sendMessage('Hello'); // Envoyer un message
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="https://dashboard.monchatbot.com" class="btn">📊 Accéder au Dashboard</a>
+        </div>
+    </div>
+
+    <!-- Intégration du widget chatbot -->
+    <script src="chatbot.js" data-client-id="DEMO123" data-auto-open="false"></script>
+</body>
+</html> 

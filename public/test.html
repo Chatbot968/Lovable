@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test du Widget Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .test-info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .test-info h3 {
+            margin-top: 0;
+            color: #1976d2;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .status.success {
+            background: #e8f5e8;
+            color: #2e7d32;
+            border: 1px solid #4caf50;
+        }
+        .status.error {
+            background: #ffebee;
+            color: #c62828;
+            border: 1px solid #f44336;
+        }
+        .status.info {
+            background: #e3f2fd;
+            color: #1976d2;
+            border: 1px solid #2196f3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Test du Widget Chatbot</h1>
+        
+        <div class="test-info">
+            <h3>Informations de test</h3>
+            <p>Cette page teste l'intégration du widget chatbot.</p>
+            <p><strong>Client ID de test :</strong> DEMO123</p>
+            <p><strong>Configuration attendue :</strong> Mode démo avec réponses simulées</p>
+        </div>
+
+        <div id="test-results">
+            <div class="status info">
+                <strong>🔄 Test en cours...</strong><br>
+                Vérification de l'intégration du widget...
+            </div>
+        </div>
+
+        <div class="test-info">
+            <h3>Instructions de test</h3>
+            <ol>
+                <li>Cliquez sur l'icône de chat en bas à droite</li>
+                <li>Envoyez un message de test</li>
+                <li>Vérifiez que la reconnaissance vocale fonctionne (bouton microphone)</li>
+                <li>Testez la fermeture et réouverture du widget</li>
+            </ol>
+        </div>
+
+        <div class="test-info">
+            <h3>Fonctionnalités à tester</h3>
+            <ul>
+                <li>✅ Ouverture/fermeture du widget</li>
+                <li>✅ Envoi de messages texte</li>
+                <li>✅ Réception de réponses</li>
+                <li>✅ Reconnaissance vocale</li>
+                <li>✅ Interface responsive</li>
+                <li>✅ Isolation CSS</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Intégration du widget chatbot -->
+    <script src="chatbot.js" data-client-id="DEMO123" data-auto-open="false"></script>
+
+    <script>
+        // Test automatique
+        setTimeout(() => {
+            const resultsDiv = document.getElementById('test-results');
+            
+            // Vérifier si le widget est chargé
+            if (window.chatbotWidget) {
+                resultsDiv.innerHTML = `
+                    <div class="status success">
+                        <strong>✅ Widget chargé avec succès !</strong><br>
+                        Le widget chatbot est prêt à être testé.
+                    </div>
+                `;
+            } else {
+                resultsDiv.innerHTML = `
+                    <div class="status error">
+                        <strong>❌ Erreur de chargement</strong><br>
+                        Le widget n'a pas pu être chargé. Vérifiez la console pour plus de détails.
+                    </div>
+                `;
+            }
+        }, 2000);
+
+        // Test de la configuration
+        setTimeout(async () => {
+            try {
+                const response = await fetch('/configs/DEMO123.json');
+                if (response.ok) {
+                    const config = await response.json();
+                    console.log('✅ Configuration chargée:', config);
+                } else {
+                    console.log('⚠️ Configuration non trouvée, mode démo activé');
+                }
+            } catch (error) {
+                console.log('⚠️ Erreur de chargement de la configuration:', error);
+            }
+        }, 1000);
+    </script>
+</body>
+</html> 
