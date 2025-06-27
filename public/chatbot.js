@@ -539,18 +539,38 @@
     }
   }
 
-  // Fonction d'initialisation automatique
-  function initChatbot() {
-    const script = document.currentScript;
-    const clientId = script.getAttribute('data-client-id');
-    
-    if (!clientId) {
-      console.error('Client ID manquant. Ajoutez data-client-id="VOTRE_CLIENT_ID" au script.');
-      return;
+  /**
+   * Fonction pour récupérer le tag script de manière sécurisée
+   * @returns {HTMLScriptElement|null} Le tag script ou null si non trouvé
+   */
+  function getScriptTag() {
+    // Essayer d'abord document.currentScript (plus fiable)
+    if (document.currentScript) {
+      return document.currentScript;
     }
+    
+    // Fallback : chercher le script avec data-client-id
+    const scripts = document.querySelectorAll('script[data-client-id]');
+    if (scripts.length > 0) {
+      return scripts[scripts.length - 1]; // Prendre le dernier script trouvé
+    }
+    
+    // Fallback : chercher le script qui contient chatbot.js
+    const allScripts = document.querySelectorAll('script[src*="chatbot.js"]');
+    if (allScripts.length > 0) {
+      return allScripts[allScripts.length - 1];
+    }
+    
+    return null;
+  }
 
-    // Options depuis les attributs data-*
-    const options = {
+  /**
+   * Fonction pour extraire les options depuis les attributs data-*
+   * @param {HTMLScriptElement} script - Le tag script
+   * @returns {Object} Les options extraites
+   */
+  function extractOptions(script) {
+    return {
       position: script.getAttribute('data-position') || 'bottom-right',
       theme: script.getAttribute('data-theme') || 'light',
       language: script.getAttribute('data-language') || 'fr',
@@ -558,18 +578,65 @@
       greeting: script.getAttribute('data-greeting') || 'Bonjour ! Comment puis-je vous aider ?',
       voiceEnabled: script.getAttribute('data-voice-enabled') === 'true'
     };
-
-    // Créer l'instance du widget
-    window.chatbotWidget = new ChatbotWidget(clientId, options);
   }
 
-  // Initialiser automatiquement si le script est chargé
+  /**
+   * Fonction d'initialisation principale
+   * @param {string} clientId - L'ID du client
+   * @param {Object} options - Les options de configuration
+   */
+  function initChatbot(clientId, options = {}) {
+    try {
+      console.log('🤖 Initialisation du chatbot pour le client:', clientId);
+      window.chatbotWidget = new ChatbotWidget(clientId, options);
+    } catch (error) {
+      console.error('❌ Erreur lors de l\'initialisation du chatbot:', error);
+    }
+  }
+
+  /**
+   * Fonction d'initialisation depuis le tag script
+   * Récupère automatiquement les attributs et initialise le widget
+   */
+  function initFromScriptTag() {
+    try {
+      // Récupérer le tag script de manière sécurisée
+      const script = getScriptTag();
+      
+      if (!script) {
+        console.warn('⚠️ Tag script introuvable. Le chatbot ne peut pas être initialisé.');
+        return;
+      }
+
+      // Récupérer le client ID (attribut requis)
+      const clientId = script.getAttribute('data-client-id');
+      
+      if (!clientId) {
+        console.error('❌ Client ID manquant. Ajoutez data-client-id="VOTRE_CLIENT_ID" au script.');
+        return;
+      }
+
+      // Extraire les options depuis les attributs data-*
+      const options = extractOptions(script);
+
+      // Initialiser le chatbot
+      initChatbot(clientId, options);
+      
+    } catch (error) {
+      console.error('❌ Erreur lors de l\'initialisation depuis le tag script:', error);
+    }
+  }
+
+  // Initialisation sécurisée
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initChatbot);
+    // Le DOM n'est pas encore prêt, attendre
+    document.addEventListener('DOMContentLoaded', initFromScriptTag);
   } else {
-    initChatbot();
+    // Le DOM est déjà prêt, initialiser immédiatement
+    initFromScriptTag();
   }
 
-  // Exposer la classe pour utilisation manuelle
+  // Exposer les fonctions pour utilisation manuelle
   window.ChatbotWidget = ChatbotWidget;
+  window.initChatbot = initChatbot;
 })(); 
