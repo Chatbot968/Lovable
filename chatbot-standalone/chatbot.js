@@ -43,12 +43,16 @@
 
     async loadClientConfig() {
       try {
-        const response = await fetch(`https://dashboard.monchatbot.com/configs/${this.clientId}.json`);
+        const response = await fetch(`https://backend-ohha.onrender.com/configs/${this.clientId}.json`);
         if (!response.ok) {
           throw new Error(`Configuration introuvable pour le client: ${this.clientId}`);
         }
         this.clientConfig = await response.json();
         console.log('✅ Configuration chargée:', this.clientConfig);
+        // Vérification du webhook_url
+        if (!this.clientConfig.webhook_url || !this.clientConfig.webhook_url.startsWith('https://backend-ohha.onrender.com/api/ask')) {
+          console.warn('⚠️ Le webhook_url de la config ne pointe pas vers https://backend-ohha.onrender.com/api/ask');
+        }
       } catch (error) {
         console.error('❌ Erreur chargement config:', error);
         throw error;
@@ -319,6 +323,14 @@
           position: fixed;
           z-index: 999999;
           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        /* PATCH DEBUG: Forcer l'affichage du bouton toggle */
+        #chatbot-widget-container .chatbot-toggle {
+          opacity: 1 !important;
+          display: block !important;
+          z-index: 2147483647 !important;
+          background: #e11d48 !important; /* rose flashy pour debug */
         }
 
         .chatbot-widget {
