@@ -1,0 +1,11 @@
+# Force correct MIME types for JavaScript modules
+*.js
+  Content-Type: application/javascript
+
+# Force correct MIME types for CSS
+*.css
+  Content-Type: text/css
+
+# Enable CORS for assets
+/assets/*
+  Access-Control-Allow-Origin: * 
