@@ -28,7 +28,6 @@ app.get('/configs/:client_id.json', async (req, res) => {
         client_id: 'DEMO123',
         logo_url: 'https://via.placeholder.com/32x32/4299e1/ffffff?text=🤖',
         color_primary: '#4299e1',
-        webhook_url: 'https://httpbin.org/post', // URL de test
         bot_description: 'Assistant virtuel de démonstration',
         banner_color: '#2d3748',
         chat_background_color: '#f7fafc',
@@ -56,12 +55,11 @@ app.get('/configs/:client_id.json', async (req, res) => {
 
     console.log(`✅ Configuration trouvée pour: ${client_id}`);
     
-    // Retourner la configuration au format attendu par le widget
+    // Retourner la configuration SANS le webhook_url (sécurité)
     const config = {
       client_id: data.client_id,
       logo_url: data.logo_url,
       color_primary: data.color_primary,
-      webhook_url: data.webhook_url,
       bot_description: data.bot_description,
       banner_color: data.banner_color,
       chat_background_color: data.chat_background_color,

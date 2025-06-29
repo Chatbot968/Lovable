@@ -49,10 +49,6 @@
         }
         this.clientConfig = await response.json();
         console.log('✅ Configuration chargée:', this.clientConfig);
-        // Vérification du webhook_url
-        if (!this.clientConfig.webhook_url || !this.clientConfig.webhook_url.startsWith('https://backend-dxeo.onrender.com/api/ask')) {
-          console.warn('⚠️ Le webhook_url de la config ne pointe pas vers https://backend-dxeo.onrender.com/api/ask');
-        }
       } catch (error) {
         console.error('❌ Erreur chargement config:', error);
         throw error;
@@ -245,16 +241,15 @@
       messageInput.value = '';
 
       try {
-        // Envoyer au webhook
-        const response = await fetch(this.clientConfig.webhook_url, {
+        // Envoyer via l'API backend (sécurisé)
+        const response = await fetch('https://backend-dxeo.onrender.com/api/ask', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ 
-            message: text,
-            clientId: this.clientId,
-            timestamp: new Date().toISOString()
+            client_id: this.clientId,
+            question: text
           }),
         });
 
@@ -266,7 +261,9 @@
         
         // Extraire la réponse
         let botResponse = '';
-        if (Array.isArray(responseData)) {
+        if (responseData.answer) {
+          botResponse = responseData.answer;
+        } else if (Array.isArray(responseData)) {
           botResponse = responseData[0]?.texte || responseData[0]?.text || responseData[0]?.response || 'Réponse vide';
         } else if (typeof responseData === 'object') {
           botResponse = responseData.response || responseData.texte || responseData.text || responseData.message || 'Réponse vide';
