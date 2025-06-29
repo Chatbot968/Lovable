@@ -4,6 +4,7 @@ import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: './',
   server: {
     host: "::",
     port: 8080,
@@ -11,11 +12,12 @@ export default defineConfig({
   plugins: [react()],
   build: {
     outDir: "dist",
+    assetsDir: "assets",
     rollupOptions: {
-      input: {
-        main: path.resolve(__dirname, "index.html"),
-      },
+      input: path.resolve(__dirname, "index.html"),
     },
+    target: 'es2015',
+    sourcemap: false,
   },
   resolve: {
     alias: {
