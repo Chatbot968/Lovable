@@ -43,15 +43,15 @@
 
     async loadClientConfig() {
       try {
-        const response = await fetch(`https://backend-ohha.onrender.com/configs/${this.clientId}.json`);
+        const response = await fetch(`https://backend-dxeo.onrender.com/configs/${this.clientId}.json`);
         if (!response.ok) {
           throw new Error(`Configuration introuvable pour le client: ${this.clientId}`);
         }
         this.clientConfig = await response.json();
         console.log('✅ Configuration chargée:', this.clientConfig);
         // Vérification du webhook_url
-        if (!this.clientConfig.webhook_url || !this.clientConfig.webhook_url.startsWith('https://backend-ohha.onrender.com/api/ask')) {
-          console.warn('⚠️ Le webhook_url de la config ne pointe pas vers https://backend-ohha.onrender.com/api/ask');
+        if (!this.clientConfig.webhook_url || !this.clientConfig.webhook_url.startsWith('https://backend-dxeo.onrender.com/api/ask')) {
+          console.warn('⚠️ Le webhook_url de la config ne pointe pas vers https://backend-dxeo.onrender.com/api/ask');
         }
       } catch (error) {
         console.error('❌ Erreur chargement config:', error);
@@ -73,12 +73,10 @@
               <h3>${this.clientConfig?.bot_description || 'Assistant virtuel'}</h3>
             </div>
             <div class="chatbot-controls">
-              <button class="chatbot-btn chatbot-btn-voice" id="voice-btn" title="Reconnaissance vocale">
+              <button class="chatbot-btn chatbot-btn-maximize" id="maximize-btn" title="Agrandir/Réduire">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
-                  <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-                  <line x1="12" y1="19" x2="12" y2="23"/>
-                  <line x1="8" y1="23" x2="16" y2="23"/>
+                  <rect x="3" y="3" width="18" height="18" rx="2"/>
+                  <polyline points="9 15 15 15 15 9"/>
                 </svg>
               </button>
               <button class="chatbot-btn chatbot-btn-close" id="close-btn" title="Fermer">
@@ -101,6 +99,14 @@
           
           <div class="chatbot-input">
             <input type="text" id="message-input" placeholder="Tapez votre message..." />
+            <button class="chatbot-btn chatbot-btn-voice" id="voice-btn" title="Reconnaissance vocale">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                <line x1="12" y1="19" x2="12" y2="23"/>
+                <line x1="8" y1="23" x2="16" y2="23"/>
+              </svg>
+            </button>
             <button class="chatbot-btn chatbot-btn-send" id="send-btn">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <line x1="22" y1="2" x2="11" y2="13"/>
@@ -146,6 +152,13 @@
 
       // Initialiser la reconnaissance vocale
       this.initializeSpeechRecognition();
+
+      // Bouton agrandir/réduire
+      const maximizeBtn = document.getElementById('maximize-btn');
+      maximizeBtn.addEventListener('click', () => {
+        const widget = document.getElementById('chatbot-widget');
+        widget.classList.toggle('maximized');
+      });
     }
 
     initializeSpeechRecognition() {
@@ -325,14 +338,6 @@
           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
-        /* PATCH DEBUG: Forcer l'affichage du bouton toggle */
-        #chatbot-widget-container .chatbot-toggle {
-          opacity: 1 !important;
-          display: block !important;
-          z-index: 2147483647 !important;
-          background: #e11d48 !important; /* rose flashy pour debug */
-        }
-
         .chatbot-widget {
           position: fixed;
           bottom: 20px;
@@ -385,6 +390,7 @@
         .chatbot-header {
           display: flex;
           align-items: center;
+          justify-content: space-between;
           padding: 16px;
           background: ${this.clientConfig?.color_primary || '#6B7280'};
           color: white;
@@ -404,19 +410,25 @@
           object-fit: cover;
         }
 
+        .chatbot-title {
+          flex: 1;
+          margin-left: 12px;
+        }
+
         .chatbot-title h3 {
           margin: 0;
           font-size: 14px;
           font-weight: 600;
-          flex: 1;
         }
 
         .chatbot-controls {
           display: flex;
           gap: 8px;
+          justify-content: flex-end;
+          align-items: center;
         }
 
-        .chatbot-btn {
+        .chatbot-btn-maximize, .chatbot-btn-close {
           background: none;
           border: none;
           color: white;
@@ -426,18 +438,26 @@
           transition: background-color 0.2s;
         }
 
-        .chatbot-btn:hover {
-          background: rgba(255, 255, 255, 0.1);
+        .chatbot-btn-maximize:hover, .chatbot-btn-close:hover {
+          background: rgba(255,255,255,0.1);
         }
 
-        .chatbot-btn.listening {
-          background: rgba(255, 255, 255, 0.2);
-          animation: pulse 1.5s infinite;
+        .chatbot-btn-voice {
+          background: ${this.clientConfig?.color_primary || '#6B7280'};
+          color: white;
+          border-radius: 50%;
+          width: 40px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: none;
+          margin-right: 8px;
+          transition: background-color 0.2s;
         }
 
-        @keyframes pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.7; }
+        .chatbot-btn-voice:hover {
+          background: ${this.clientConfig?.color_primary || '#6B7280'}dd;
         }
 
         .chatbot-messages {
@@ -542,6 +562,17 @@
             right: 20px;
             left: 20px;
           }
+        }
+
+        .chatbot-widget.maximized {
+          width: 90vw !important;
+          height: 90vh !important;
+          left: 50% !important;
+          top: 50% !important;
+          right: auto !important;
+          bottom: auto !important;
+          transform: translate(-50%, -50%) scale(1) !important;
+          z-index: 1000000 !important;
         }
       `;
 
