@@ -1,1 +1,11 @@
 /*    /index.html   200 
+
+# SPA routing - redirect all routes to index.html
+/*    /index.html   200
+
+# Force HTTPS
+http://*  https://*  301!
+
+# Handle specific routes
+/dashboard  /index.html  200
+/login      /index.html  200 
