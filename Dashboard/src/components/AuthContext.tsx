@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -52,6 +51,37 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const signIn = async (email: string, question1: string, question2: string) => {
+    // Vérification stricte côté front
+    const allowedEmails = [
+      'silvacorreiaruben@gmail.com',
+      'lamperim.diego47@gmail.com',
+    ];
+    const allowedDogs = ['unico', 'bons'];
+    const allowedPorte = ['mathys'];
+    if (!allowedEmails.includes(email.toLowerCase())) {
+      toast({
+        title: "Accès refusé",
+        description: "Email non autorisé.",
+        variant: "destructive",
+      });
+      return { error: { message: "Email non autorisé" } };
+    }
+    if (!allowedDogs.includes(question1.trim().toLowerCase())) {
+      toast({
+        title: "Accès refusé",
+        description: "Nom de chien incorrect.",
+        variant: "destructive",
+      });
+      return { error: { message: "Nom de chien incorrect" } };
+    }
+    if (!allowedPorte.includes(question2.trim().toLowerCase())) {
+      toast({
+        title: "Accès refusé",
+        description: "Réponse au meilleur pote en commun incorrecte.",
+        variant: "destructive",
+      });
+      return { error: { message: "Réponse au meilleur pote en commun incorrecte" } };
+    }
     try {
       setLoading(true);
       console.log('🔐 Tentative de connexion pour:', email);

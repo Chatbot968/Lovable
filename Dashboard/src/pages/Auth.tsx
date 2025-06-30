@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/components/AuthContext';
@@ -81,11 +80,11 @@ const Auth = () => {
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="question1">Quel est ton chien préféré ?</Label>
+              <Label htmlFor="question1">Nom d'un chien</Label>
               <Input
                 id="question1"
                 type="text"
-                placeholder="Votre réponse..."
+                placeholder="unico ou bons"
                 value={loginForm.question1}
                 onChange={(e) => setLoginForm({ ...loginForm, question1: e.target.value })}
                 required
@@ -94,11 +93,11 @@ const Auth = () => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="question2">Quel est ton chat préféré ?</Label>
+              <Label htmlFor="question2">Meilleur pote en commun</Label>
               <Input
                 id="question2"
                 type="text"
-                placeholder="Votre réponse..."
+                placeholder="mathys"
                 value={loginForm.question2}
                 onChange={(e) => setLoginForm({ ...loginForm, question2: e.target.value })}
                 required

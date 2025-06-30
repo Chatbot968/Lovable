@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Fichiers d'environnement sensibles
+.env
+backend/config.env
+backend/.env
