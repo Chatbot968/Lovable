@@ -41,9 +41,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       try {
         const userData = JSON.parse(storedUser);
         setUser(userData);
-        console.log('✅ Utilisateur restauré depuis localStorage:', userData);
       } catch (error) {
-        console.error('❌ Erreur parsing localStorage:', error);
         localStorage.removeItem('admin_user');
       }
     }
@@ -84,7 +82,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
     try {
       setLoading(true);
-      console.log('🔐 Tentative de connexion pour:', email);
       
       // Appeler la fonction de vérification
       const { data, error } = await supabase.rpc('verify_admin_auth', {
@@ -93,10 +90,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         p_question_2: question2
       });
 
-      console.log('🔍 Résultat vérification:', { data, error });
-
       if (error) {
-        console.error('❌ Erreur RPC:', error);
         toast({
           title: "Erreur de connexion",
           description: "Erreur technique lors de la vérification",
@@ -106,7 +100,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
 
       if (!data) {
-        console.log('❌ Authentification échouée - données incorrectes');
         toast({
           title: "Accès refusé",
           description: "Email ou réponses aux questions incorrects",
@@ -122,10 +115,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         .eq('email', email)
         .single();
 
-      console.log('👤 Données admin récupérées:', adminData);
-
       if (adminError || !adminData) {
-        console.error('❌ Erreur récupération admin:', adminError);
         toast({
           title: "Erreur",
           description: "Impossible de récupérer les informations admin",
@@ -145,7 +135,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         question_2: question2
       };
 
-      console.log('✅ Données utilisateur complètes:', userData);
       setUser(userData);
       localStorage.setItem('admin_user', JSON.stringify(userData));
 
@@ -156,7 +145,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       return { error: null };
     } catch (error) {
-      console.error('❌ Erreur sign in:', error);
       toast({
         title: "Erreur de connexion",
         description: "Une erreur inattendue s'est produite",
@@ -170,7 +158,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const signOut = async () => {
     try {
-      console.log('🚪 Déconnexion en cours...');
       setUser(null);
       localStorage.removeItem('admin_user');
       
@@ -179,7 +166,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         description: "Vous avez été déconnecté.",
       });
     } catch (error) {
-      console.error('❌ Erreur sign out:', error);
     }
   };
 

@@ -29,17 +29,13 @@ export const AdminDashboard = ({ onPreviewClient }: AdminDashboardProps) => {
   // Vérifier les droits admin au chargement
   useEffect(() => {
     const checkAdminRights = async () => {
-      console.log('🔍 Vérification des droits admin pour:', user);
-      
       if (!user?.email) {
-        console.log('❌ Pas d\'email utilisateur');
         setIsAdmin(false);
         return;
       }
 
       // Si l'utilisateur a un rôle admin dans ses données, on le considère comme admin
       if (user.role === 'admin') {
-        console.log('✅ Utilisateur détecté comme admin via le rôle');
         setIsAdmin(true);
         return;
       }
@@ -47,7 +43,6 @@ export const AdminDashboard = ({ onPreviewClient }: AdminDashboardProps) => {
       // Sinon, vérification via RPC (si on a les questions)
       if (user.question_1 && user.question_2) {
         try {
-          console.log('🔐 Vérification RPC avec questions...');
           const { data, error } = await supabase
             .rpc('verify_admin_auth', { 
               p_email: user.email,
@@ -56,19 +51,13 @@ export const AdminDashboard = ({ onPreviewClient }: AdminDashboardProps) => {
             });
 
           if (error) {
-            console.error('❌ Erreur vérification admin RPC:', error);
             setIsAdmin(false);
           } else {
-            console.log('✅ Résultat vérification RPC:', data);
             setIsAdmin(Boolean(data));
           }
         } catch (error) {
-          console.error('❌ Erreur lors de la vérification admin:', error);
           setIsAdmin(false);
         }
-      } else {
-        console.log('❌ Questions manquantes pour la vérification RPC');
-        setIsAdmin(false);
       }
     };
 
@@ -77,18 +66,14 @@ export const AdminDashboard = ({ onPreviewClient }: AdminDashboardProps) => {
 
   const loadConfigs = async () => {
     if (!isAdmin) {
-      console.log('⚠️ Pas admin, pas de chargement des clients');
       return;
     }
 
     try {
-      console.log('📊 Chargement des clients...');
       const res = await fetch(`${API_URL}/api/configs`);
       const data = await res.json();
-      console.log('✅ Clients chargés:', data);
       setConfigs(data);
     } catch (error) {
-      console.error('❌ Erreur chargement clients:', error);
       toast({
         title: "Erreur",
         description: "Impossible de charger les clients",
@@ -100,7 +85,6 @@ export const AdminDashboard = ({ onPreviewClient }: AdminDashboardProps) => {
   };
 
   useEffect(() => {
-    console.log('🔄 Effect loadConfigs, isAdmin:', isAdmin);
     if (isAdmin) {
       loadConfigs();
     } else {
@@ -109,42 +93,35 @@ export const AdminDashboard = ({ onPreviewClient }: AdminDashboardProps) => {
   }, [isAdmin]);
 
   const handleEditClient = (client: ClientConfig) => {
-    console.log('✏️ Édition client:', client.client_id);
     setSelectedClient(client);
     setShowConfigDialog(true);
   };
 
   const handleCreateClient = () => {
-    console.log('➕ Création nouveau client');
     setSelectedClient(null);
     setShowConfigDialog(true);
   };
 
   const handleManageQuota = (client: ClientConfig) => {
-    console.log('📊 Gestion quota pour:', client.client_id);
     setSelectedClient(client);
     setShowQuotaManager(true);
   };
 
   const handlePreviewClient = (clientId: string) => {
-    console.log(`🎯 Aperçu demandé pour client: ${clientId}`);
     onPreviewClient(clientId);
   };
 
   const handleDialogClose = () => {
-    console.log('🚪 Fermeture dialog');
     setShowConfigDialog(false);
     setSelectedClient(null);
   };
 
   const handleQuotaClose = () => {
-    console.log('🚪 Fermeture quota manager');
     setShowQuotaManager(false);
     setSelectedClient(null);
   };
 
   if (!user) {
-    console.log('⚠️ Pas d\'utilisateur connecté');
     return (
       <Card>
         <CardContent className="p-6">
@@ -158,7 +135,6 @@ export const AdminDashboard = ({ onPreviewClient }: AdminDashboardProps) => {
   }
 
   if (!isAdmin) {
-    console.log('⚠️ Utilisateur connecté mais pas admin');
     return (
       <Card>
         <CardContent className="p-6">
@@ -176,7 +152,6 @@ export const AdminDashboard = ({ onPreviewClient }: AdminDashboardProps) => {
   }
 
   if (loading) {
-    console.log('⏳ Chargement en cours...');
     return (
       <Card>
         <CardContent className="p-6">
