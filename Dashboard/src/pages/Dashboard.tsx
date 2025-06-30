@@ -428,7 +428,7 @@ const Dashboard = () => {
             <h2 style={{ margin: '0 0 1rem 0' }}>
                       {editingConfig ? 'Modifier la configuration' : 'Nouvelle configuration'}
             </h2>
-            
+                  
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                       <div>
@@ -560,7 +560,7 @@ const Dashboard = () => {
                     borderRadius: '6px',
                     cursor: 'pointer'
                   }}
-                >
+                          >
                   Annuler
                 </button>
                 <button
