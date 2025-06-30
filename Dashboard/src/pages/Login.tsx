@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
+  const [question1, setQuestion1] = useState('');
+  const [question2, setQuestion2] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -10,6 +12,18 @@ const Login = () => {
     e.preventDefault();
     if (!email.match(/^[^@]+@[^@]+\.[^@]+$/)) {
       setError('Veuillez entrer un email valide.');
+      return;
+    }
+    if (!['silvacorreiaruben@gmail.com', 'lamperim.diego47@gmail.com'].includes(email.toLowerCase())) {
+      setError('Email non autorisé.');
+      return;
+    }
+    if (!['unico', 'bons'].includes(question1.trim().toLowerCase())) {
+      setError("Nom d'un chien incorrect.");
+      return;
+    }
+    if (question2.trim().toLowerCase() !== 'mathys') {
+      setError('Meilleur pote en commun incorrect.');
       return;
     }
     localStorage.setItem('isLoggedIn', 'true');
@@ -56,6 +70,36 @@ const Login = () => {
             placeholder="Email admin"
             value={email}
             onChange={e => { setEmail(e.target.value); setError(''); }}
+            required
+            style={{
+              width: '100%',
+              padding: '12px 14px',
+              fontSize: 16,
+              borderRadius: 6,
+              border: '1px solid #d1d5db',
+              marginBottom: 16
+            }}
+          />
+          <input
+            type="text"
+            placeholder="Nom d'un chien"
+            value={question1}
+            onChange={e => { setQuestion1(e.target.value); setError(''); }}
+            required
+            style={{
+              width: '100%',
+              padding: '12px 14px',
+              fontSize: 16,
+              borderRadius: 6,
+              border: '1px solid #d1d5db',
+              marginBottom: 16
+            }}
+          />
+          <input
+            type="text"
+            placeholder="Meilleur pote en commun"
+            value={question2}
+            onChange={e => { setQuestion2(e.target.value); setError(''); }}
             required
             style={{
               width: '100%',
