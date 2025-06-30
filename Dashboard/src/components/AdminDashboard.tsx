@@ -10,7 +10,7 @@ import { useAuth } from "@/components/AuthContext";
 import { Eye, Settings, Plus, BarChart3 } from "lucide-react";
 import type { ClientConfig } from "@/types/client";
 
-const API_URL = "https://backend-ohha.onrender.com"; // Mets ici l'URL Render de ton backend
+const API_URL = "https://backend-dxeo.onrender.com"; // Mets ici l'URL Render de ton backend
 
 interface AdminDashboardProps {
   onPreviewClient: (clientId: string) => void;

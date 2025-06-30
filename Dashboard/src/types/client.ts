@@ -1,4 +1,3 @@
-
 export interface ClientConfig {
   client_id: string;
   logo_url: string;
@@ -9,4 +8,5 @@ export interface ClientConfig {
   chat_background_color?: string;
   text_color?: string;
   description?: string;
+  is_active?: boolean;
 }
